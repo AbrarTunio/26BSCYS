@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python Lab Quiz | Sir Abrar</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --py-blue: #306998;
+    --py-blue-dark: #1f4a6e;
+    --py-yellow: #FFD43B;
+    --page: #EEF3F8;
+    --code-bg: #1B2633;
+    --code-text: #E6EDF3;
+    --code-comment: #8FA3B8;
+    --ink: #1C2B3A;
+  }
+  body {
+    background: var(--page);
+    color: var(--ink);
+    font-family: "Lexend", system-ui, -apple-system, "Segoe UI", sans-serif;
+    min-height: 100vh;
+  }
+  .brand-bar {
+    background: var(--py-blue);
+    color: #fff;
+    border-bottom: 5px solid var(--py-yellow);
+  }
+  .brand-bar h1 { font-size: 1.35rem; font-weight: 700; margin: 0; }
+  .brand-bar small { color: #d7e6f3; }
+  .quiz-card {
+    max-width: 760px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid #d5e0ea;
+    box-shadow: 0 6px 24px rgba(31, 74, 110, 0.10);
+  }
+  .btn-py {
+    background: var(--py-blue);
+    color: #fff;
+    font-weight: 600;
+    border: none;
+  }
+  .btn-py:hover, .btn-py:focus { background: var(--py-blue-dark); color: #fff; }
+  .btn-wa { background: #1DA851; color: #fff; font-weight: 600; border: none; }
+  .btn-wa:hover, .btn-wa:focus { background: #168a42; color: #fff; }
+  .topic-pill {
+    display: inline-block;
+    background: #FFF4C2;
+    color: #6b5400;
+    border: 1px solid #f0d76a;
+    border-radius: 50px;
+    padding: 2px 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  .code-box {
+    background: var(--code-bg);
+    color: var(--code-text);
+    font-family: "JetBrains Mono", Consolas, "Courier New", monospace;
+    font-size: 0.98rem;
+    line-height: 2.1;
+    border-radius: 10px;
+    padding: 18px 20px;
+    white-space: pre;
+    overflow-x: auto;
+    border-left: 6px solid var(--py-yellow);
+    margin: 0;
+  }
+  .blank {
+    font-family: "JetBrains Mono", Consolas, monospace;
+    font-size: 0.95rem;
+    background: #fffbe6;
+    color: #1B2633;
+    border: 2px dashed var(--py-yellow);
+    border-radius: 6px;
+    padding: 0 6px;
+    min-width: 7ch;
+    width: 7ch;
+    height: 1.8em;
+    vertical-align: middle;
+  }
+  .blank:focus {
+    outline: none;
+    border-style: solid;
+    box-shadow: 0 0 0 3px rgba(255, 212, 59, 0.55);
+  }
+  .blank-num {
+    color: var(--py-yellow);
+    font-size: 0.7rem;
+    vertical-align: super;
+    margin-right: 2px;
+  }
+  .progress { height: 10px; background: #dbe5ee; }
+  .progress-bar { background: var(--py-blue); }
+  .score-big { font-size: 3.6rem; font-weight: 700; color: var(--py-blue); line-height: 1; }
+  .rules li { margin-bottom: 4px; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="brand-bar py-3 mb-4">
+  <div class="container">
+    <h1>Programming Fundamentals (Python) Lab Quiz</h1>
+    <small>Fill in the blanks | 30 blanks | 15 marks</small>
+  </div>
+</div>
+
+<div class="container pb-5">
+
+  <!-- START SCREEN -->
+  <div id="startScreen" class="quiz-card p-4 p-md-5">
+    <h2 class="h4 fw-bold mb-3">Before you begin</h2>
+    <ul class="rules ps-3 mb-4">
+      <li>There are <strong>15 questions</strong>. Each question has <strong>2 blanks</strong> to fill.</li>
+      <li>Each blank is worth <strong>0.5 marks</strong>. Total marks: <strong>15</strong>.</li>
+      <li>You see <strong>one question at a time</strong>. Once you move to the next question, you <strong>cannot go back</strong>.</li>
+      <li>Type exactly what Python needs. Python is case sensitive, so <code>print</code> is not the same as <code>Print</code>.</li>
+      <li>At the end, send your marks to Sir Abrar on WhatsApp.</li>
+    </ul>
+
+    <div class="mb-3">
+      <label for="studentName" class="form-label fw-semibold">Full name</label>
+      <input type="text" id="studentName" class="form-control form-control-lg" placeholder="e.g. Ali Raza" autocomplete="name">
+    </div>
+    <div class="mb-3">
+      <label for="studentRoll" class="form-label fw-semibold">Roll number</label>
+      <input type="text" id="studentRoll" class="form-control form-control-lg text-uppercase" placeholder="e.g. 26BSCYS001" autocomplete="off" autocapitalize="characters" spellcheck="false">
+    </div>
+    <div id="startError" class="alert alert-danger py-2 hidden"></div>
+    <button id="startBtn" class="btn btn-py btn-lg w-100 mt-2">Start test</button>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div id="quizScreen" class="quiz-card p-4 p-md-5 hidden">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <span id="qCounter" class="fw-semibold"></span>
+      <span id="studentTag" class="text-muted small"></span>
+    </div>
+    <div class="progress mb-4" role="progressbar" aria-label="Quiz progress">
+      <div id="progressBar" class="progress-bar" style="width: 0%"></div>
+    </div>
+
+    <span id="qTopic" class="topic-pill mb-3"></span>
+    <p id="qTask" class="fs-5 mt-3 mb-3"></p>
+    <pre id="codeBox" class="code-box"></pre>
+
+    <div id="qError" class="alert alert-warning py-2 mt-3 hidden"></div>
+    <button id="nextBtn" class="btn btn-py btn-lg w-100 mt-4">Save answer and go to next</button>
+    <p class="text-muted small text-center mt-2 mb-0">You cannot come back to this question after saving.</p>
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <div id="resultScreen" class="quiz-card p-4 p-md-5 text-center hidden">
+    <h2 class="h4 fw-bold mb-1">Test complete</h2>
+    <p id="resultName" class="text-muted mb-4"></p>
+    <div class="score-big" id="scoreText"></div>
+    <p class="mt-2 mb-1">out of 15 marks</p>
+    <p id="blankText" class="text-muted small mb-4"></p>
+
+    <div class="table-responsive text-start mb-4">
+      <table class="table table-sm align-middle mb-0">
+        <thead><tr><th>Q</th><th>Topic</th><th class="text-end">Marks</th></tr></thead>
+        <tbody id="resultTable"></tbody>
+      </table>
+    </div>
+
+    <a id="waBtn" class="btn btn-wa btn-lg w-100" target="_blank" rel="noopener">Submit marks to Sir Abrar</a>
+    <p class="text-muted small mt-2 mb-0">WhatsApp will open with your message ready. Just press send.</p>
+  </div>
+
+</div>
+
+<script>
+/*
+  HOW BLANKS WORK
+  In each code string, the marker @@ is a blank.
+  The code is shown with textContent (never innerHTML), so symbols like
+  < > & " ' in code or in student answers can never break the page.
+  answers: one list per blank. Any value in the list is accepted.
+*/
+const WHATSAPP_NUMBER = "923343401969";   // 03343401969
+const MARK_PER_BLANK = 0.5;
+
+const QUESTIONS = [
+  // ---------- Fundamentals: Variables, Data and Operators ----------
+  {
+    topic: "Variables, Data Types and Comments",
+    task: "Start the first line as a comment, then print the data type of age.",
+    code:
+`@@ This program stores student details
+name = "Ali"
+age = 20
+print(@@(age))     # output: class int`,
+    answers: [["#"], ["type"]]
+  },
+  {
+    topic: "Operators and Calculations",
+    task: "17 students are put in groups of 5. Find the number of full groups and the students left over.",
+    code:
+`total = 17
+groups = total @@ 5     # floor division, answer is 3
+left = total @@ 5       # remainder, answer is 2
+print(groups, left)`,
+    answers: [["//"], ["%"]]
+  },
+  {
+    topic: "Strings, Type Conversion and Constants",
+    task: "Convert the input to a decimal number, then print the name in capital letters.",
+    code:
+`PI = 3.14
+text = input("Enter radius: ")
+radius = @@(text)        # convert to a decimal number
+print("Area:", PI * radius ** 2)
+
+name = "python"
+print(name.@@())         # output: PYTHON`,
+    answers: [["float"], ["upper"]]
+  },
+
+  // ---------- Decision Structures ----------
+  {
+    topic: "Conditions and the if Statement",
+    task: "Print Pass if marks are 50 or more, otherwise print Fail.",
+    code:
+`marks = 45
+@@ marks >= 50:
+    print("Pass")
+@@:
+    print("Fail")`,
+    answers: [["if"], ["else"]]
+  },
+  {
+    topic: "Multi-Way Decisions with elif",
+    task: "Complete the second condition. Warm means the temperature is 25 or more.",
+    code:
+`temp = 30
+if temp > 35:
+    print("Hot")
+@@ temp @@ 25:
+    print("Warm")
+else:
+    print("Cold")`,
+    answers: [["elif"], [">="]]
+  },
+  {
+    topic: "Logical Operators and Input Validation",
+    task: "Fill in the logical operators.",
+    code:
+`age = int(input("Enter age: "))
+if age >= 18 @@ age <= 60:     # both must be true
+    print("Can apply for the job")
+if age < 0 @@ age > 120:       # only one needs to be true
+    print("Invalid age")`,
+    answers: [["and"], ["or"]]
+  },
+
+  // ---------- Repetition Structures ----------
+  {
+    topic: "Condition-Controlled Loops: while",
+    task: "Print the numbers 1 to 5 using a while loop.",
+    code:
+`count = 1
+@@ count <= 5:
+    print(count)
+    count @@ 1       # increase count by 1 (short form)`,
+    answers: [["while"], ["+="]]
+  },
+  {
+    topic: "Count-Controlled Loops: for, Counters and Accumulators",
+    task: "Add the numbers 1 to 10 using an accumulator.",
+    code:
+`total = 0
+for n in @@(1, 11):      # numbers 1 to 10
+    total = @@ + n
+print(total)             # output: 55`,
+    answers: [["range"], ["total"]]
+  },
+  {
+    topic: "Nested Loops and Keeping Loops Robust",
+    task: "Complete the inner loop, then leave the while loop when the input is a valid number.",
+    code:
+`for row in range(3):
+    for col @@ range(3):
+        print("*", end="")
+    print()
+
+while True:
+    try:
+        num = int(input("Enter a number: "))
+        @@               # exit the loop
+    except ValueError:
+        print("Not a number, try again")`,
+    answers: [["in"], ["break"]]
+  },
+
+  // ---------- Functions ----------
+  {
+    topic: "Using Built-in Functions",
+    task: "Use built-in functions to get the length of the word and the biggest number.",
+    code:
+`word = "Mehran"
+print(@@(word))     # output: 6
+
+nums = [4, 9, 2]
+print(@@(nums))     # output: 9`,
+    answers: [["len"], ["max"]]
+  },
+  {
+    topic: "Writing Your Own Functions",
+    task: "Define a function, then call it.",
+    code:
+`@@ greet():
+    print("Hello students!")
+
+@@()          # call the function`,
+    answers: [["def"], ["greet"]]
+  },
+  {
+    topic: "Arguments, Return Values and Modules",
+    task: "Bring in the math module and send the result back from the function.",
+    code:
+`@@ math
+
+def area(r):
+    @@ math.pi * r * r
+
+print(area(2))`,
+    answers: [["import"], ["return"]]
+  },
+
+  // ---------- Files and Exceptions ----------
+  {
+    topic: "Reading and Writing Text Files",
+    task: "Write a line into the file, then close it.",
+    code:
+`f = open("notes.txt", "w")
+f.@@("Hello file\\n")
+f.@@()`,
+    answers: [["write"], ["close"]]
+  },
+  {
+    topic: "File Modes and Processing Data",
+    task: "Add a line to the end of the file without deleting old data. Then read the file safely line by line.",
+    code:
+`f = open("notes.txt", "@@")    # add to the end of file
+f.write("New line\\n")
+f.close()
+
+@@ open("notes.txt", "r") as f:
+    for line in f:
+        print(line.strip())`,
+    answers: [["a"], ["with"]]
+  },
+  {
+    topic: "Exception Handling",
+    task: "Stop the program from crashing when the file does not exist.",
+    code:
+`@@:
+    f = open("data.txt", "r")
+    print(f.read())
+except @@:
+    print("File not found!")`,
+    answers: [["try"], ["FileNotFoundError", "OSError", "IOError"]]
+  }
+];
+
+// ---------- State ----------
+let student = { name: "", roll: "" };
+let current = 0;
+let results = [];   // marks per question
+
+const $ = (id) => document.getElementById(id);
+
+function normalize(s) {
+  return String(s).trim().replace(/\s+/g, " ");
+}
+
+// Roll number: remove spaces and dashes, make capital. 26bscys-001 becomes 26BSCYS001
+function cleanRoll(raw) {
+  return String(raw).replace(/[\s\-_]/g, "").toUpperCase();
+}
+
+// ---------- Start ----------
+$("startBtn").addEventListener("click", () => {
+  const name = normalize($("studentName").value);
+  const roll = cleanRoll($("studentRoll").value);
+  const err = $("startError");
+
+  if (name.length < 3) {
+    err.textContent = "Enter your full name (at least 3 letters).";
+    err.classList.remove("hidden");
+    return;
+  }
+  // Format: 2-digit year + program letters + number, e.g. 26BSCYS001
+  if (!/^\d{2}[A-Z]{2,8}\d{2,4}$/.test(roll)) {
+    err.textContent = "Enter your roll number in this format: 26BSCYS001";
+    err.classList.remove("hidden");
+    return;
+  }
+  err.classList.add("hidden");
+  student = { name, roll };
+
+  $("startScreen").classList.add("hidden");
+  $("quizScreen").classList.remove("hidden");
+  $("studentTag").textContent = name + " | " + roll;
+  showQuestion();
+});
+
+// ---------- Show one question ----------
+function showQuestion() {
+  const q = QUESTIONS[current];
+  $("qCounter").textContent = "Question " + (current + 1) + " of " + QUESTIONS.length;
+  $("progressBar").style.width = ((current) / QUESTIONS.length * 100) + "%";
+  $("qTopic").textContent = q.topic;
+  $("qTask").textContent = q.task;
+  $("qError").classList.add("hidden");
+
+  const box = $("codeBox");
+  box.innerHTML = "";   // clearing only, no content is added via innerHTML
+  const parts = q.code.split("@@");
+
+  parts.forEach((part, i) => {
+    box.appendChild(document.createTextNode(part));
+    if (i < parts.length - 1) {
+      const num = document.createElement("span");
+      num.className = "blank-num";
+      num.textContent = i + 1;
+      box.appendChild(num);
+
+      const input = document.createElement("input");
+      input.type = "text";
+      input.className = "blank";
+      input.setAttribute("autocomplete", "off");
+      input.setAttribute("autocorrect", "off");
+      input.setAttribute("autocapitalize", "off");
+      input.setAttribute("spellcheck", "false");
+      input.setAttribute("aria-label", "Blank " + (i + 1));
+      input.addEventListener("input", () => {
+        input.style.width = Math.max(7, input.value.length + 2) + "ch";
+      });
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") { e.preventDefault(); saveAndNext(); }
+      });
+      box.appendChild(input);
+    }
+  });
+
+  if (current === QUESTIONS.length - 1) {
+    $("nextBtn").textContent = "Save answer and finish test";
+  }
+  const first = box.querySelector("input");
+  if (first) first.focus();
+  window.scrollTo({ top: 0 });
+}
+
+// ---------- Save and move on ----------
+$("nextBtn").addEventListener("click", saveAndNext);
+
+function saveAndNext() {
+  const q = QUESTIONS[current];
+  const inputs = Array.from($("codeBox").querySelectorAll("input"));
+  const anyEmpty = inputs.some((inp) => normalize(inp.value) === "");
+
+  if (anyEmpty) {
+    const ok = confirm("Some blanks are empty. You cannot come back to this question. Continue anyway?");
+    if (!ok) return;
+  }
+
+  let marks = 0;
+  let correctBlanks = 0;
+  inputs.forEach((inp, i) => {
+    const given = normalize(inp.value);
+    const accepted = q.answers[i].map(normalize);
+    if (accepted.includes(given)) {
+      marks += MARK_PER_BLANK;
+      correctBlanks++;
+    }
+  });
+  results.push({ topic: q.topic, marks, correctBlanks, totalBlanks: inputs.length });
+
+  current++;
+  if (current < QUESTIONS.length) {
+    showQuestion();
+  } else {
+    showResult();
+  }
+}
+
+// ---------- Result ----------
+function showResult() {
+  $("quizScreen").classList.add("hidden");
+  $("resultScreen").classList.remove("hidden");
+
+  const total = results.reduce((s, r) => s + r.marks, 0);
+  const blanksRight = results.reduce((s, r) => s + r.correctBlanks, 0);
+  const blanksAll = results.reduce((s, r) => s + r.totalBlanks, 0);
+
+  $("resultName").textContent = student.name + " (" + student.roll + ")";
+  $("scoreText").textContent = formatMarks(total);
+  $("blankText").textContent = blanksRight + " of " + blanksAll + " blanks correct";
+
+  const tbody = $("resultTable");
+  results.forEach((r, i) => {
+    const tr = document.createElement("tr");
+    const c1 = document.createElement("td"); c1.textContent = i + 1;
+    const c2 = document.createElement("td"); c2.textContent = r.topic;
+    const c3 = document.createElement("td"); c3.className = "text-end fw-semibold";
+    c3.textContent = formatMarks(r.marks) + " / 1";
+    tr.append(c1, c2, c3);
+    tbody.appendChild(tr);
+  });
+
+  const msg =
+    "Assalam o Alaikum Sir Abrar,\n" +
+    "Python Lab Quiz Result\n" +
+    "Name: " + student.name + "\n" +
+    "Roll No: " + student.roll + "\n" +
+    "Marks: " + formatMarks(total) + " / 15\n" +
+    "Correct blanks: " + blanksRight + " / " + blanksAll;
+
+  $("waBtn").href = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(msg);
+}
+
+function formatMarks(n) {
+  return Number.isInteger(n) ? String(n) : n.toFixed(1);
+}
+
+// Warn before leaving mid-test
+window.addEventListener("beforeunload", (e) => {
+  if (current > 0 && current < QUESTIONS.length) {
+    e.preventDefault();
+    e.returnValue = "";
+  }
+});
+</script>
+</body>
+</html>
